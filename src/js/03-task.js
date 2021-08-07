@@ -1,0 +1,67 @@
+import '../css/styles.css';
+
+
+const randomIntegerFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+const makeTransaction = (transaction) => {
+  const delay = randomIntegerFromInterval(200, 500);
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const canProcess = Math.random() > 0.3;
+
+            if (canProcess) {
+                resolve([ transaction.id, delay ]);
+            } else {
+                reject(transaction.id);
+            }
+        }, delay);
+    })
+
+};
+
+const logSuccess = ([id, time]) => {
+  console.log(`Transaction ${id} processed in ${time}ms`);
+};
+
+const logError = id => {
+  console.warn(`Error processing transaction ${id}. Please try again later.`);
+};
+
+
+/*
+ * Должно работать так
+ */
+makeTransaction({ id: 70, amount: 150 })
+  .then(logSuccess)
+  .catch(logError);
+
+makeTransaction({ id: 71, amount: 230 })
+  .then(logSuccess)
+  .catch(logError);
+
+makeTransaction({ id: 72, amount: 75 })
+  .then(logSuccess)
+  .catch(logError);
+
+makeTransaction({ id: 73, amount: 100 })
+  .then(logSuccess)
+    .catch(logError);
+  
+
+
+    //пример!!!! 1-вариант, т.к. агрументы в функции  fn сшиты в один объект ({ a: 10, b: 15}), в параметры записывается один объект (obj), и в консоле в шаблонной строке доступ к объекту с помощью клчюча
+// function fn(obj) {
+//     console.log(`value: ${obj.a}, value: ${obj.b}`);
+//     }
+   
+// fn({ a: 10, b: 15});
+
+    //пример!!!! 2-вариант т.к. агрументы в функции  fn сшиты в один объект ({ a: 10, b: 15}), в параметры записывается один объект ({a,b}), и в консоле в шаблонной строке доступ к каждому объекту
+// function fn({a,b}) {
+//     console.log(`value: ${a}, value: ${b}`);
+//     }
+
+// fn({ a: 10, b: 15});
